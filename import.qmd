@@ -3,7 +3,7 @@ title: "Titre de votre page d'importation"
 title-block-banner: true
 description: | 
   Petite description de cette page.
-# à changer
+# Importation de données
 date: "2022-12-20"
 # Modifier les détails que vous voulez
 author:
@@ -27,15 +27,49 @@ bibliography: references.bib
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 
+library(tibble)
 library(fs)
 library(lubridate)
 library(tidyverse)
 library(skimr)
+library(magrittr)
+library(rvest)
 ```
 
 ```{r download, cache=TRUE}
 
 URL <- "https://github.com/owid/co2-data/archive/refs/heads/master.zip"
+dat <- data.frame(URL)
+(dat <- as_tibble(dat))
+
+raw_html <- read_html(x = URL)
+
+raw_html
+
+raw_body <- html_element(x = raw_html,
+                         css = "body")
+
+raw_body
+
+html_text(x = raw_body, trim = TRUE)
+
+items <- html_element(x = raw_body,
+                         css = ".itemlist")
+items
+
+html_elements(x = items,
+              css = ".titleline > a") %>% html_text()
+
+base_raw_html <- read_html(x = URL)
+base_html_table <- html_elements(x = base_raw_html, css = "table")
+base_tables <- html_table(x = base_html_table)
+
+base_tables$`Province/Territoire` <- ifelse(test = is.na(base_tables$`Province/Territoire`),
+                                  yes = base_tables$Territoire, no = base_tables$`Province/Territoire`)
+base_tables$Territoire <- NULL
+
+rm(list=(ls(pattern = "base*")))
+
 
 base_path <- path("data", "raw")
 
@@ -45,8 +79,11 @@ fname <- paste(today(),
 
 fpath <- path(base_path,
               fname)
+
+
 download.file(url = URL,
               destfile = fpath)
+
 ```
 
 V1: Le fichier a été téléchargé là:
