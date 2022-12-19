@@ -4,7 +4,7 @@ title-block-banner: true
 description: | 
   Petite description de cette page.
 # à changer
-date: "2022-12-21"
+date: "2022-12-20"
 # Modifier les détails que vous voulez
 author:
   - name: "Abdoul Dramane TONDE"
@@ -54,3 +54,19 @@ V1: Le fichier a été téléchargé là:
 data/raw/2022-12-18_owid-co2-codebook.zip.
 
 V2: V1: Le fichier a été téléchargé là:`r fpath`
+
+```{r extraction}
+
+unzip(zipfile = fpath,
+      exdir = base_path)
+
+```
+
+Nous voyons qu'il y a deux nouveaux fichiers: `r fs::dir_ls(base_path)`
+
+```{r read}
+
+df <- read.csv(file = path(base_path, "co2-data-master/owid-co2-codebook.csv"))
+
+skim(df)
+```
