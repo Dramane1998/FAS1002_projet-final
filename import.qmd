@@ -7,9 +7,9 @@ description: |
 date: "2022-12-21"
 # Modifier les détails que vous voulez
 author:
-  - name: "Prénom Nom"
+  - name: "Abdoul Dramane TONDE"
     # Votre site web perso ou github
-    url: https://github.com/VOTREUSERNAME
+    url: https://github.com/Dramane98
     # les champs d'affiliation sont optionnels, vous pouvez les
     # comment out en ajoutant un # devant.
     affiliation: FAS1002
@@ -25,17 +25,32 @@ citation: true
 bibliography: references.bib
 ---
 
-Il est maintenant le temps de décrire votre projet avant de passer au document
-suivant, soit l'importation et la manipulation des données.
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 
-Je vous conseille d'écrire cette partie en dernier, une fois que vous aurez
-déjà vos résultats et figures afin d'éviter de réécrire cette page plusieurs
-fois.
+library(fs)
+library(lubridate)
+library(tidyverse)
+library(skimr)
+```
 
-::: callout-important
-N'oubliez pas d'inclure vos références sur chacune des pages!
-:::
+```{r download, cache=TRUE}
 
-Par exemple:
+URL <- "https://github.com/owid/co2-data/archive/refs/heads/master.zip"
 
-> Les données proviennent entre autres de @owidenergy.
+base_path <- path("data", "raw")
+
+fname <- paste(today(), 
+               "owid-co2-codebook.zip",
+               sep = "_")
+
+fpath <- path(base_path,
+              fname)
+download.file(url = URL,
+              destfile = fpath)
+```
+
+V1: Le fichier a été téléchargé là:
+
+data/raw/2022-12-18_owid-co2-codebook.zip.
+
+V2: V1: Le fichier a été téléchargé là:`r fpath`

@@ -4,12 +4,12 @@ title-block-banner: false
 description: | 
   Petite description de cette page.
 # à changer
-date: "2022-12-21"
+date: "2022-12-20"
 # Modifier les détails que vous voulez
 author:
-  - name: "Prénom Nom"
+  - name: "Abdoul Dramane TONDE"
     # Votre site web perso ou github
-    url: https://github.com/VOTREUSERNAME
+    url: https://github.com/Dramane98
     # les champs d'affiliation sont optionnels, vous pouvez les
     # comment out en ajoutant un # devant.
     affiliation: FAS1002
@@ -27,7 +27,7 @@ bibliography: references.bib
 
 ## Un peu d'interactivité pour le plaisir!
 
-```{r map}
+```{r map, eval=FALSE}
 library(leaflet)
 leaflet() %>%
     setView(lng=150,
@@ -42,7 +42,7 @@ leaflet() %>%
 
 ## Peut-être que ça vous inspirera!
 
-```{r plotly, message=FALSE, warning=FALSE}
+```{r plotly, message=FALSE, warning=FALSE, eval=FALSE}
 library(plotly)
 library(gapminder)
 df <- gapminder
@@ -71,6 +71,6 @@ fig <- fig %>%
 fig
 ```
 
--------------------------------------------------------------------------------
+------------------------------------------------------------------------
 
 À votre imagination de jouer!
