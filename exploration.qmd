@@ -31,25 +31,63 @@ library(fs)
 library(lubridate)
 library(tidyverse)
 library(skimr)
+library(countrycode)
 ```
 
-## Reimportation de données
+## Creation de la variable continent pour les données d'Our World in Data
 
-```{r}
+```{r variable continent, warning=FALSE, message=FALSE, error=FALSE}
 
-data <- read_csv("data/raw/2022-12-20_owid-co2-data.csv")
-data_tbl <- as.tibble(data)
-skim(data)
+URL <- "https://github.com/owid/co2-data/raw/master/owid-co2-data.csv"
+
+fname <- paste(today(),
+               "owid-co2-data.csv",
+               sep = "_")
+base_path <- path("data", "raw")
+ 
+fpath <- path(base_path,
+              fname)  
+
+#Le ! a été ajouté pour signifié NOT comme dans:
+# Si (le fichier n'existe PAS) {
+#    Exécuter cette parti de code
+#    } sinon {
+#    Exécuter cette partie de code
+#    }
+if (!file.exists(fpath)) {
+    file.remove(junk)
+  download.file(url = URL,
+                destfile = fpath) 
+  paste("Le fichier",
+        fpath,
+        "n'existait pas, il a donc été téléchargé à l'instant."
+  )
+  
+} else {
+  print(paste("Le fichier",
+              fpath,
+              "existe déjà, il ne sera pas téléchargé à nouveau.")
+  )
+}
+
+data <- read_csv(fpath) 
+data_tbl <- as_tibble(data)
+data_tbl <- data_tbl %>%
+    select(country,year,iso_code,population,gdp,co2, ends_with("per_capital"), primary_energy_consumption) %>%
+           mutate(continent = countrycode(data_tbl$iso_code,
+                                   "iso3c",
+                                   "continent"))
+
+missing <- data_tbl %>%
+    select(country,continent) %>%
+    filter(!complete.cases(.))
+
+data_continent <- data_tbl %>%
+    drop_na(continent)
+data_continent <- as_tibble(data_continent)
 ```
 
 ## Données Extremes
-
-```{r}
-p1 <- ggplot(data = data,
-       mapping = aes(x = year))
-
-p1 + geom_histogram()
-```
 
 ```{r}
 

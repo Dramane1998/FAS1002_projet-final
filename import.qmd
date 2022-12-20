@@ -39,6 +39,7 @@ library(rvest)
 library(readr)
 library(tibble)
 library(countrycode)
+library(readxl)
 ```
 
 ### Importation des données de CO2
@@ -79,7 +80,7 @@ if (!file.exists(fpath)) {
 }
 
 
-data <- read_csv("data/raw/2022-12-20_owid-co2-data.csv")
+data <- read_csv(fpath)
 view(data)
 skim(data)
 
@@ -93,12 +94,14 @@ V2: V1: Le fichier a été téléchargé là: `r fpath`
 
 ### Importations des données Life Expectancy at Birth
 
+[Excel file »](https://docs.google.com/spreadsheets/d/1RheSon1-q4vFc3AGyupVPH6ptEByE-VtnjOCselU0PE/export?format=xlsx)
+
 ```{r download, read, cache=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 
-URL1 <- "https://docs.google.com/spreadsheets/d/1RheSon1-q4vFc3AGyupVPH6ptEByE-VtnjOCselU0PE/edit#gid=501532268"
+URL1 <- "https://docs.google.com/spreadsheets/d/1RheSon1-q4vFc3AGyupVPH6ptEByE-VtnjOCselU0PE/export?format=xlsx"
 
-fname1 <- paste(today(),
-               "leab-data.csv",
+fname1 <- paste(month(today()),
+               "leab-data.xlsx",
                sep = "_")
 base_path1 <- path("data", "raw")
  
@@ -126,8 +129,9 @@ if (!file.exists(fpath1)) {
   )
 }
 
-data1 <- read_csv("data/raw/2022-12-20_leab-data.csv")
-
+data1 <- readxl::read_excel(fpath1,sheet = 4) 
+view(data1)  
+skim(data1)
 ```
 
 V3: Le fichier a été téléchargé là:
@@ -138,8 +142,8 @@ V4: V3: Le fichier a été téléchargé là: `r fpath1`
 
 ```{r warning=FALSE}
 
-data_tbl <- as.tibble(data)
-data1_tbl <- as.tibble(data1)
+data_tbl <- as_tibble(data)
+data1_tbl <- as_tibble(data1)
 ```
 
 ```{r warning=FALSE, message=FALSE, error=FALSE}
@@ -149,6 +153,10 @@ head(data1)
 ```
 
 ```{r warning=FALSE, message=FALSE, error=FALSE}
+ 
+data_joint <- data_tbl %>%
+    full_join(x = data_tbl,y = data1_tbl,
+                 by = c("country"= "name"))
 
-
+head(data_joint)
 ```
