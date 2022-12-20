@@ -25,10 +25,10 @@ website:
     # menu
     left:
       - href: index.qmd
-        text: Page d'accueil
+        text: Bienvenue dans mon projet
       - intro.qmd
       - href: import.qmd
-        text: Titre à changer
+        text: page d'importation
       - exploration.qmd
     right:
       - href: a-propos.qmd
@@ -40,8 +40,8 @@ website:
       [Propulsé par des logiciels libres 💖](https://github.com/FAS1002/A22){.nav-link}
     center:
     # Changer VOTRE NOM pour ce que vous voulez
-      - text: "VOTRE NOM"
-        href: mailto:VOTRECOURRIEL@example.com
+      - text: "Abdoul Dramane TONDE"
+        href: mailto:abdramane.tonde@umontreal.ca
     right:
       - icon: github
         href: https://github.com/FAS1002/

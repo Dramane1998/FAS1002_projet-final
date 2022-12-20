@@ -1,10 +1,10 @@
 ---
-title: "Titre de votre page d'introduction"
+title: "Page d'introduction"
 title-block-banner: true
 description: | 
   Petite description de votre projet en une ligne.
 # à changer
-date: "2022-12-21"
+date: "2022-12-20"
 # Modifier les détails que vous voulez
 author:
   - name: "Abdoul Dramane TONDE"

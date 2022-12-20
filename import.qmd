@@ -1,5 +1,5 @@
 ---
-title: "Titre de votre page d'importation"
+title: "Page d'importation"
 title-block-banner: true
 description: | 
   Petite description de cette page.
@@ -37,6 +37,8 @@ library(skimr)
 library(magrittr)
 library(rvest)
 library(readr)
+library(tibble)
+library(countrycode)
 ```
 
 ### Importation des données de CO2
@@ -61,6 +63,7 @@ fpath <- path(base_path,
 #    Exécuter cette partie de code
 #    }
 if (!file.exists(fpath)) {
+    file.remove(junk)
   download.file(url = URL,
                 destfile = fpath) 
   paste("Le fichier",
@@ -77,15 +80,20 @@ if (!file.exists(fpath)) {
 
 
 data <- read_csv("data/raw/2022-12-20_owid-co2-data.csv")
-View(data)
+view(data)
 skim(data)
-
 
 ```
 
-## Importations des données Life Expectancy at Birth
+V1: Le fichier a été téléchargé là:
 
-```{r download, read, cache=TRUE}
+data/raw/2022-12-20_owid-co2-data.csv
+
+V2: V1: Le fichier a été téléchargé là: `r fpath`
+
+### Importations des données Life Expectancy at Birth
+
+```{r download, read, cache=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 
 URL1 <- "https://docs.google.com/spreadsheets/d/1RheSon1-q4vFc3AGyupVPH6ptEByE-VtnjOCselU0PE/edit#gid=501532268"
 
@@ -118,6 +126,29 @@ if (!file.exists(fpath1)) {
   )
 }
 
+data1 <- read_csv("data/raw/2022-12-20_leab-data.csv")
+
+```
+
+V3: Le fichier a été téléchargé là:
+
+data/raw/2022-12-20_leab-data.csv
+
+V4: V3: Le fichier a été téléchargé là: `r fpath1`
+
+```{r warning=FALSE}
+
+data_tbl <- as.tibble(data)
+data1_tbl <- as.tibble(data1)
+```
+
+```{r warning=FALSE, message=FALSE, error=FALSE}
+
+head(data)
+head(data1)
+```
+
+```{r warning=FALSE, message=FALSE, error=FALSE}
 
 
 ```
