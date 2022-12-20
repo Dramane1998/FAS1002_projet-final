@@ -34,76 +34,65 @@ library(tidyverse)
 library(skimr)
 library(magrittr)
 library(rvest)
+library(readr)
 ```
 
 ```{r download, cache=TRUE}
 
-URL <- "https://github.com/owid/co2-data/archive/refs/heads/master.zip"
-dat <- data.frame(URL)
-(dat <- as_tibble(dat))
+owid_Data <- "https://ourworldindata.org/"
 
-raw_html <- read_html(x = URL)
-
-raw_html
-
-raw_body <- html_element(x = raw_html,
-                         css = "body")
-
-raw_body
-
-html_text(x = raw_body, trim = TRUE)
-
-items <- html_element(x = raw_body,
-                         css = ".itemlist")
-items
-
-html_elements(x = items,
-              css = ".titleline > a") %>% html_text()
-
-base_raw_html <- read_html(x = URL)
-base_html_table <- html_elements(x = base_raw_html, css = "table")
-base_tables <- html_table(x = base_html_table)
-
-base_tables$`Province/Territoire` <- ifelse(test = is.na(base_tables$`Province/Territoire`),
-                                  yes = base_tables$Territoire, no = base_tables$`Province/Territoire`)
-base_tables$Territoire <- NULL
-
-rm(list=(ls(pattern = "base*")))
+scaffold.owid<- paste0("data/raw/","owid-co2-data_", today(), '.csv')
+#Le ! a été ajouté pour signifié NOT comme dans:
+# Si (le fichier n'existe PAS) {
+#    Exécuter cette parti de code
+#    } sinon {
+#    Exécuter cette partie de code
+#    }
+if (!file.exists(scaffold.owid)) {
+  download.file(url = owid_Data,
+                destfile = scaffold.owid) 
+  paste("Le fichier",
+        scaffold.owid,
+        "n'existait pas, il a donc été téléchargé à l'instant."
+  )
+  
+} else {
+  print(paste("Le fichier",
+              scaffold.owid,
+              "existe déjà, il ne sera pas téléchargé à nouveau.")
+  )
+}
 
 
-base_path <- path("data", "raw")
 
-fname <- paste(today(), 
-               "owid-co2-codebook.zip",
-               sep = "_")
-
-fpath <- path(base_path,
-              fname)
-
-
-download.file(url = URL,
-              destfile = fpath)
 
 ```
 
-V1: Le fichier a été téléchargé là:
+```{r}
 
-data/raw/2022-12-18_owid-co2-codebook.zip.
 
-V2: V1: Le fichier a été téléchargé là:`r fpath`
+leab_Data <- "https://www.gapminder.org/data/documentation/gd004/"
 
-```{r extraction}
+scaffold.Leab<- paste0('data/raw/',"leab-data_", Sys.Date(), '.csv')
+#Le ! a été ajouté pour signifié NOT comme dans:
+# Si (le fichier n'existe PAS) {
+#    Exécuter cette parti de code
+#    } sinon {
+#    Exécuter cette partie de code
+#    }
+if (!file.exists(scaffold.Leab)) {
+  download.file(url = leab_Data,
+                destfile = scaffold.Leab) 
+  paste("Le fichier",
+        scaffold.Leab,
+        "n'existait pas, il a donc été téléchargé à l'instant."
+  )
+  
+} else {
+  print(paste("Le fichier",
+              scaffold.Leab,
+              "existe déjà, il ne sera pas téléchargé à nouveau.")
+  )
+}
 
-unzip(zipfile = fpath,
-      exdir = base_path)
-
-```
-
-Nous voyons qu'il y a deux nouveaux fichiers: `r fs::dir_ls(base_path)`
-
-```{r read}
-
-df <- read.csv(file = path(base_path, "co2-data-master/owid-co2-codebook.csv"))
-
-skim(df)
 ```
