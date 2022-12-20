@@ -25,6 +25,8 @@ citation: true
 bibliography: references.bib
 ---
 
+## Telechargement des packages
+
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 
 library(tibble)
@@ -37,62 +39,85 @@ library(rvest)
 library(readr)
 ```
 
-```{r download, cache=TRUE}
+### Importation des données de CO2
 
-owid_Data <- "https://ourworldindata.org/"
+```{r download,read, cache=TRUE}
 
-scaffold.owid<- paste0("data/raw/","owid-co2-data_", today(), '.csv')
+
+URL <- "https://github.com/owid/co2-data/raw/master/owid-co2-data.csv"
+
+fname <- paste(today(),
+               "owid-co2-data.csv",
+               sep = "_")
+base_path <- path("data", "raw")
+ 
+fpath <- path(base_path,
+              fname)  
+
 #Le ! a été ajouté pour signifié NOT comme dans:
 # Si (le fichier n'existe PAS) {
 #    Exécuter cette parti de code
 #    } sinon {
 #    Exécuter cette partie de code
 #    }
-if (!file.exists(scaffold.owid)) {
-  download.file(url = owid_Data,
-                destfile = scaffold.owid) 
+if (!file.exists(fpath)) {
+  download.file(url = URL,
+                destfile = fpath) 
   paste("Le fichier",
-        scaffold.owid,
+        fpath,
         "n'existait pas, il a donc été téléchargé à l'instant."
   )
   
 } else {
   print(paste("Le fichier",
-              scaffold.owid,
+              fpath,
               "existe déjà, il ne sera pas téléchargé à nouveau.")
   )
 }
 
 
+data <- read_csv("data/raw/2022-12-20_owid-co2-data.csv")
+View(data)
+skim(data)
 
 
 ```
 
-```{r}
+## Importations des données Life Expectancy at Birth
 
+```{r download, read, cache=TRUE}
 
-leab_Data <- "https://www.gapminder.org/data/documentation/gd004/"
+URL1 <- "https://docs.google.com/spreadsheets/d/1RheSon1-q4vFc3AGyupVPH6ptEByE-VtnjOCselU0PE/edit#gid=501532268"
 
-scaffold.Leab<- paste0('data/raw/',"leab-data_", Sys.Date(), '.csv')
+fname1 <- paste(today(),
+               "leab-data.csv",
+               sep = "_")
+base_path1 <- path("data", "raw")
+ 
+fpath1 <- path(base_path1,
+              fname1)  
+
 #Le ! a été ajouté pour signifié NOT comme dans:
 # Si (le fichier n'existe PAS) {
 #    Exécuter cette parti de code
 #    } sinon {
 #    Exécuter cette partie de code
 #    }
-if (!file.exists(scaffold.Leab)) {
-  download.file(url = leab_Data,
-                destfile = scaffold.Leab) 
+if (!file.exists(fpath1)) {
+  download.file(url = URL1,
+                destfile = fpath1) 
   paste("Le fichier",
-        scaffold.Leab,
+        fpath1,
         "n'existait pas, il a donc été téléchargé à l'instant."
   )
   
 } else {
   print(paste("Le fichier",
-              scaffold.Leab,
+              fpath1,
               "existe déjà, il ne sera pas téléchargé à nouveau.")
   )
 }
+
+
 
 ```
