@@ -10,9 +10,9 @@ website:
 
   reader-mode: true
 # URL de votre site une fois publié - <VOTREUSERNAME> à changer 
-  site-url: https://Dramane98.github.io/FAS1002_projet-final/
+  site-url: https://Dramane1998.github.io/FAS1002_projet-final/
 # URL de votre répertoire - VOTREUSERNAME/VOTRE-RÉPERTOIRE à changer
-  repo-url: https://github.com/Dramane98/https://github.com/Dramane1998/FAS1002_projet-final.git/
+  repo-url: https://github.com/Dramane1998/https://github.com/Dramane1998/FAS1002_projet-final.git/
   repo-actions: [edit, issue, source]
   
 # Options à changer pour le menu ou la barre de navigation
@@ -37,7 +37,7 @@ website:
 # footer
   page-footer:
     left: |
-      [Propulsé par des logiciels libres 💖](https://github.com/FAS1002/A22){.nav-link}
+      [ 💖](https://github.com/FAS1002/A22){.nav-link}
     center:
     # Changer VOTRE NOM pour ce que vous voulez
       - text: "Abdoul Dramane TONDE"

@@ -9,7 +9,7 @@ date: "2022-12-20"
 author:
   - name: "Abdoul Dramane TONDE"
     # Votre site web perso ou github
-    url: https://github.com/Dramane98
+    url: https://github.com/Dramane1998
     # les champs d'affiliation sont optionnels, vous pouvez les
     # comment out en ajoutant un # devant.
     affiliation: FAS1002
@@ -32,6 +32,8 @@ Premierement nous téléchargerons nos données quotidiennenment pour la base de
 Pour la visualisation et les graphiques nous avons utiliser entre autre les packages ggplot et plot.
 
 Pour l'exploitation, l'exprtation et l'analyse notre fichier exploration.qmd détaille parfaitement tout ce qu'on a eu à faire.
+
+Les données proviennent de :
 
 @owidenergy
 

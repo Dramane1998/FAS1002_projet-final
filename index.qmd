@@ -46,8 +46,6 @@ fig
 
 Nous remarquons dans ce graphique qua partir des années 1900 les plus grand produteur de gaz etaient l'Amerique et l'Europe, avec une large pollution pour les USA. Mais a partir des années 2000 on voit une nette augmatation des gaz de la part de l'Asie qui de nos jours depassent meme l'Amerique et l'Europe. Les continents d'Afrique et d'Oceanie sont les moins pollueurs.
 
-<1>Quand même très cool, non? Vous pouvez mettre des annotations sur le côté!<1>
-
 ## Remerciements {.appendix}
 
 J'aimerais remercier toute la cohorte du cours FAS1002 de l'automne 2022 pour leur ouverture et efforts tout au long de la session!
