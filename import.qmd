@@ -1,5 +1,5 @@
 ---
-title: "Page d'importation"
+title: "Importation des données"
 title-block-banner: true
 description: | 
   Petite description de cette page.
@@ -19,17 +19,16 @@ author:
     orcid: 0000-0000-0000-0000
 
 # TRUE == Générer une citation pour cette page précise. Pour enlever, mettre false.
-citation: true
+citation: false
 # Inclure les références que vous utilisez dans vos rapports. Je conseille Zotero pour construire
 # ce fichier ou de connecter RStudio directement pour pouvoir citer avec @nom-de-reference.
 bibliography: references.bib
 ---
 
-## Telechargement des packages
+## Téléchargement des packages
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 
-library(tibble)
 library(fs)
 library(lubridate)
 library(tidyverse)
@@ -38,13 +37,14 @@ library(magrittr)
 library(rvest)
 library(readr)
 library(tibble)
-library(countrycode)
 library(readxl)
 ```
 
-### Importation des données de CO2
+### Importation des données de CO2 et quelques calculs statisques
 
-```{r download,read, cache=TRUE}
+Les données proviennent entre autres de @owidenergy.
+
+```{r download,read, cache=TRUE,echo=FALSE, warning=FALSE, message=FALSE}
 
 
 URL <- "https://github.com/owid/co2-data/raw/master/owid-co2-data.csv"
@@ -81,10 +81,15 @@ if (!file.exists(fpath)) {
 
 
 data <- read_csv(fpath)
+attach(data)
 view(data)
 skim(data)
-
+dim(data)
+summary(data)
+mean(data$year)
 ```
+
+La moyenne des années de nos données d'Our World in Data est de 1925.
 
 V1: Le fichier a été téléchargé là:
 
@@ -92,9 +97,9 @@ data/raw/2022-12-20_owid-co2-data.csv
 
 V2: V1: Le fichier a été téléchargé là: `r fpath`
 
-### Importations des données Life Expectancy at Birth
+### Importations des données Life Expectancy at Birth et quelsques Calculs statisques
 
-[Excel file »](https://docs.google.com/spreadsheets/d/1RheSon1-q4vFc3AGyupVPH6ptEByE-VtnjOCselU0PE/export?format=xlsx)
+[Excel file »](https://docs.google.com/spreadsheets/d/1RheSon1-q4vFc3AGyupVPH6ptEByE-VtnjOCselU0PE/export?format=xlsx) : Notre fichier Excel qui contient les données de Life Expectancy at Birth provient de la base de données Gapminder.
 
 ```{r download, read, cache=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 
@@ -115,6 +120,7 @@ fpath1 <- path(base_path1,
 #    Exécuter cette partie de code
 #    }
 if (!file.exists(fpath1)) {
+    file.remove(junk)
   download.file(url = URL1,
                 destfile = fpath1) 
   paste("Le fichier",
@@ -132,6 +138,8 @@ if (!file.exists(fpath1)) {
 data1 <- readxl::read_excel(fpath1,sheet = 4) 
 view(data1)  
 skim(data1)
+dim(data1)
+summary(data1)
 ```
 
 V3: Le fichier a été téléchargé là:
@@ -140,17 +148,25 @@ data/raw/2022-12-20_leab-data.csv
 
 V4: V3: Le fichier a été téléchargé là: `r fpath1`
 
-```{r warning=FALSE}
+## Transformations de nos données en Tibbles
+
+```{r warning=FALSE, message=FALSE, error=FALSE}
 
 data_tbl <- as_tibble(data)
 data1_tbl <- as_tibble(data1)
 ```
 
+## Visualisation des données Tibbles
+
 ```{r warning=FALSE, message=FALSE, error=FALSE}
 
-head(data)
-head(data1)
+head(data_tbl)
+view(data_tbl)
+head(data1_tbl)
+view(data1_tbl)
 ```
+
+## Incorporation des deux jeux de données
 
 ```{r warning=FALSE, message=FALSE, error=FALSE}
  
@@ -159,4 +175,7 @@ data_joint <- data_tbl %>%
                  by = c("country"= "name"))
 
 head(data_joint)
+dim(data_joint)
+summarise(data_joint)
+attach(data_joint)
 ```

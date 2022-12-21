@@ -1,5 +1,5 @@
 ---
-title: "Page d'introduction"
+title: "Introduction"
 title-block-banner: true
 description: | 
   Petite description de votre projet en une ligne.
@@ -19,20 +19,21 @@ author:
     orcid: 0000-0000-0000-0000
 
 # TRUE == Générer une citation pour cette page précise. Pour enlever, mettre false.
-citation: true
+citation: false
 # Inclure les références que vous utilisez dans vos rapports. Je conseille Zotero pour construire
 # ce fichier ou de connecter RStudio directement pour pouvoir citer avec @nom-de-reference.
 bibliography: references.bib
 ---
 
-Il est maintenant le temps de décrire votre projet avant de passer au document suivant, soit l'importation et la manipulation des données.
+Notre projet vise à importer des données de Our World in Data et de Gapminder pour ensuite les traiter.
 
-Je vous conseille d'écrire cette partie en dernier, une fois que vous aurez déjà vos résultats et figures afin d'éviter de réécrire cette page plusieurs fois.
+Premierement nous téléchargerons nos données quotidiennenment pour la base de données Our world in data par ce que ces données sont mis à jour frequemment. Ensuite pour les données des autres sources nous les téléchargerons mensuellement. Pour mieux disposer de données constament à jour nous les avons nettoyer lors de l'importation.
 
-::: callout-important
-N'oubliez pas d'inclure vos références sur chacune des pages!
-:::
+Pour la visualisation et les graphiques nous avons utiliser entre autre les packages ggplot et plot.
 
-Par exemple:
+Pour l'exploitation, l'exprtation et l'analyse notre fichier exploration.qmd détaille parfaitement tout ce qu'on a eu à faire.
 
-> Les données proviennent entre autres de @owidenergy.
+@owidenergy
+
+Notre base de données de Gapminder se trouve initialement sur Rstudio. Donc nous y avons juste telecharger les données qui nous interressaient pour nos analyses. Voici l'URL qui mène directement au site web:
+[Life Expectancy at Birth \| Gapminder](https://www.gapminder.org/data/documentation/gd004/)

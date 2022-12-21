@@ -2,32 +2,54 @@
 title: "FAS1002_projet-final"
 ---
 
-Vous pouvez faire le résumé de votre projet directement sur cette page et utiliser le document [intro](intro.qmd) pour décrire votre projet.
+Ce projet est une mise en pratique de nos connaissances axquises durant toute la session de l'automne 2022. Tout au long de ce projet nous imoprter des du site web ensuiste les traiter, les visualiser et en fin exporter le tout a la fin de nos analyses.
 
-Chaque page est en fait un fichier Quarto standard. [^1]
-
-[^1]: Avec des petits trucs sympa comme des notes de bas de page. Ces documents sont les mêmes que nous avons utilisés tout au long de la session.
-
-## Vous pourrez inclure des graphiques
-
-Comme la classique pyramide à la ci-dessous par exemple:
-
-```{r pie, fig.cap='Une très belle tarte', tidy=FALSE}
-par(mar = c(0, 1, 0, 1))
-pie(
-  c(280, 60, 20),
-  c('Ciel', 'Côté ensoleillé de la pyramide', 'Côté ombragé de la pyramide'),
-  col = c('#0292D8', '#F7EA39', '#C4B632'),
-  init.angle = -50, border = NA
-)
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+library(maps)
+library(mapdata)
+map('worldHires',
+    col = rainbow(18),
+    fill = T)
 ```
 
-<aside>Quand même très cool, non? Vous pouvez mettre des annotations sur le côté!</aside>
+## Graphique des continents qui polluent plus dans le temps
 
-### Toujours très important de mettre les bons niveaux de titres
+```{r plotly, message=FALSE, warning=FALSE, eval=FALSE}
+library(plotly)
+library(gapminder)
+df <- data_continent
 
-Un peu de texte de remplissage pour faire comme si la page était plus longue. *Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.*
+fig <- df %>%
+  plot_ly(
+    x = ~ year,
+    y = ~ co2,
+    size = ~ population,
+    color = ~ continent,
+    frame = ~ year == 1900,
+    text = ~ country,
+    hoverinfo = "text",
+    type = 'scatter',
+    mode = 'markers',
+    width = "100%",
+    height = 600
+  ) 
+    
+
+fig <- fig %>% layout(xaxis = list(type = "log"))
+
+fig <- fig %>%
+  animation_button(
+    x = 0, xanchor = "left", y = -0.15, yanchor = "bottom"
+  )
+fig 
+```
+
+Nous remarquons dans ce graphique qua partir des années 1900 les plus grand produteur de gaz etaient l'Amerique et l'Europe, avec une large pollution pour les USA. Mais a partir des années 2000 on voit une nette augmatation des gaz de la part de l'Asie qui de nos jours depassent meme l'Amerique et l'Europe. Les continents d'Afrique et d'Oceanie sont les moins pollueurs.
+
+<1>Quand même très cool, non? Vous pouvez mettre des annotations sur le côté!<1>
 
 ## Remerciements {.appendix}
 
 J'aimerais remercier toute la cohorte du cours FAS1002 de l'automne 2022 pour leur ouverture et efforts tout au long de la session!
+
+Egalement j'aimerais remercier Samuel Guay en particulier pour tout ce que j'ai appris dans ce cours de programmation. Il m'a beaucoup aidé à assimiler pulsuieurs concepts du cours et fut présent toute la session pour repondre aux qestions de tous les etudiants.

@@ -1,5 +1,5 @@
 ---
-title: "Titre de votre page d'exploration"
+title: "Exploration des données"
 title-block-banner: false
 description: | 
   Petite description de cette page.
@@ -19,11 +19,13 @@ author:
     orcid: 0000-0000-0000-0000
 
 # TRUE == Générer une citation pour cette page précise. Pour enlever, mettre false.
-citation: true
+citation: false
 # Inclure les références que vous utilisez dans vos rapports. Je conseille Zotero pour construire
 # ce fichier ou de connecter RStudio directement pour pouvoir citer avec @nom-de-reference.
 bibliography: references.bib
 ---
+
+## Telechargement des données
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 
@@ -34,7 +36,8 @@ library(skimr)
 library(countrycode)
 ```
 
-## Creation de la variable continent pour les données d'Our World in Data
+
+### Données d'Our World in Data
 
 ```{r variable continent, warning=FALSE, message=FALSE, error=FALSE}
 
@@ -71,6 +74,56 @@ if (!file.exists(fpath)) {
 }
 
 data <- read_csv(fpath) 
+```
+
+### Données de Life Expectancy at Birth
+
+```{r download, read, cache=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+
+URL1 <- "https://docs.google.com/spreadsheets/d/1RheSon1-q4vFc3AGyupVPH6ptEByE-VtnjOCselU0PE/export?format=xlsx"
+
+fname1 <- paste(month(today()),
+               "leab-data.xlsx",
+               sep = "_")
+base_path1 <- path("data", "raw")
+ 
+fpath1 <- path(base_path1,
+              fname1)  
+
+#Le ! a été ajouté pour signifié NOT comme dans:
+# Si (le fichier n'existe PAS) {
+#    Exécuter cette parti de code
+#    } sinon {
+#    Exécuter cette partie de code
+#    }
+if (!file.exists(fpath1)) {
+    file.remove(junk)
+  download.file(url = URL1,
+                destfile = fpath1) 
+  paste("Le fichier",
+        fpath1,
+        "n'existait pas, il a donc été téléchargé à l'instant."
+  )
+  
+} else {
+  print(paste("Le fichier",
+              fpath1,
+              "existe déjà, il ne sera pas téléchargé à nouveau.")
+  )
+}
+
+data1 <- readxl::read_excel(fpath1,sheet = 4) 
+data1_tbl <- as_tibble(data1)
+view(data1)  
+skim(data1)
+dim(data1)
+summary(data1)
+```
+
+## Création de la variable continent pour les données d'Our World in Data
+
+```{r warning=FALSE, message=FALSE, error=FALSE}
+
 data_tbl <- as_tibble(data)
 data_tbl <- data_tbl %>%
     select(country,year,iso_code,population,gdp,co2, ends_with("per_capital"), primary_energy_consumption) %>%
@@ -84,92 +137,72 @@ missing <- data_tbl %>%
 
 data_continent <- data_tbl %>%
     drop_na(continent)
-data_continent <- as_tibble(data_continent)
+data_continent1 <- as_tibble(data_continent)
+skim(data_continent)
 ```
 
-## Données Extremes
+## Quelques données Extremes
 
-```{r}
+```{r warning=FALSE, message=FALSE, error=FALSE}
 
 data %>%
     filter(country == "Afghanistan") %>%
     select(year, population, iso_code, cumulative_luc_co2)
-```
 
-```{r}
-
-p2 <- ggplot(data = data,
-             mapping = aes(x = country, y = population))
-p2 + geom_boxplot()
 ```
 
 ## Evolution du ratio country/co2
 
-```{r}
+```{r warning=FALSE, message=FALSE, error=FALSE}
 
-data %>%
+data_tbl %>%
     group_by(country, co2) %>%
     summarise(new = n()) %>%
     mutate(new1 = new / sum(new) * 100)
-evolution <- group_by(.data = data, country, co2) %>%
+evolution <- group_by(.data = data_tbl, country, co2) %>%
     summarise(n = n())
 
 evolution <- evolution %>% mutate(pourcent = n / sum(n) * 100)
 ```
 
-```{r}
-
-p3 <- ggplot(evolution, aes(x = country, y = pourcent))
-
-p3 + geom_line()
-```
-
-## Un peu d'interactivité pour le plaisir!
-
-```{r map, eval=FALSE}
-library(leaflet)
-leaflet() %>%
-    setView(lng=150,
-            lat=-30,
-            zoom = 3) %>%
-    addTiles() %>%
-    addMarkers(lng=174.768,
-               lat=-36.852,
-               popup="Là où R est né") %>%
-    addProviderTiles(providers$Esri.WorldGrayCanvas)
-```
-
-## Peut-être que ça vous inspirera!
+## Filtre des pays qui ont plus de 400000 habitants
 
 ```{r plotly, message=FALSE, warning=FALSE, eval=FALSE}
-library(plotly)
-library(gapminder)
-df <- gapminder
 
-fig <- df %>%
-  plot_ly(
-    x = ~ gdpPercap,
-    y = ~ lifeExp,
-    size = ~ pop,
-    color = ~ continent,
-    frame = ~ year,
-    text = ~ country,
-    hoverinfo = "text",
-    type = 'scatter',
-    mode = 'markers',
-    width = "100%",
-    height = 600
-  )
-
-fig <- fig %>% layout(xaxis = list(type = "log"))
-
-fig <- fig %>%
-  animation_button(
-    x = 0, xanchor = "left", y = -0.15, yanchor = "bottom"
-  )
-fig
+population <- data %>% filter(population >= 400000)
+dim(population)
 ```
 
 ------------------------------------------------------------------------
 
-À votre imagination de jouer!
+Ici nous retrouvons les pays dont la population est superieure ou egale à 400000 habitants.
+
+```{r}
+
+library(ggplot2)
+
+p1 <- ggplot(data = data,
+       mapping = aes(x = year))
+       
+p1 +   geom_histogram(color ="black",
+                   fill = "#facade",
+                   binwidth = 1)+
+    theme_dark()
+      
+```
+
+Voila un histogramme selon la variable année.
+
+## Exportation des données
+
+```{r warning=FALSE, message=FALSE, error=FALSE}
+
+write_csv(data,file = "data.csv",na = "NA", col_names = TRUE)
+write_csv(data_tbl,file = "data_tbl.csv",na = "NA", col_names = TRUE)
+write_csv(data1,file = "data1.csv",na = "NA", col_names = TRUE)
+write_csv(data1_tbl,file = "data1_tbl.csv",na = "NA", col_names = TRUE)
+write_csv(data_continent1,file = "data_continent1.csv",na = "NA", col_names = TRUE)
+
+```
+
+Ici nous retrouvons tous nos données exportées.

@@ -6,22 +6,18 @@ Ce répertoire se veut exemple typique d'un rapport fonctionnel à remettre pour
 
 ## Instructions
 
-1.  Pour démarrer avec ce répertoire, vous n'avez qu'à *fork* ce répertoire.
+1.  Pour démarrer avec ce répertoire, nous avons *fork* ce répertoire.
 
-    -   Assurez-vous de copier toutes les branches en **décochant** "Copy the `main` branch only"
+2.  Ensuite, nous avons activer *GitHub Pages* dans les settings et choisir la *Deploy from a branch* (`gh-pages`). Nous avons ensuite commit tous nos fichiers dans notre repertoire. La page devrait se trouver à **`https://Dramane98.github.io/FAA1002.Projet final/`**.
 
-    -   ![](/assets/img/copy_all_branches.png)
-
-2.  Ensuite, vous devez activer *GitHub Pages* dans les settings et choisir la *Deploy from a branch* (`gh-pages`). Il faudra que vous fassiez un premier commit pour que le site web apparaisse pour la première fois. La page devrait se trouver à **`https://VOTREUSERNAME.github.io/VOTRE-REPERTOIRE/`**.
-
-3.  N'oubliez pas de modifier votre section `About` en haut à droite de votre répertoire pour faciliter la visite de votre site web.
+3.  Egalement nous avons modifier notre section `About` en haut à droite de votre répertoire pour faciliter la visite de votre site web.
 
 4.  Pour commencer à coder le plus rapidement, le plus simple est d'importer le répertoire à travers les menus de RStudio en créant un nouveau `Project >  Version Control > votre répertoire`.
 
     1.  Pour les plus téméraires, vous pouvez `git clone https://github.com/USERNAME/votre-repertoire` à partir de votre terminal.
     2.  N'oubliez pas de *commit* périodiquement en tenant compte de la fonctionnalité de vos ajouts. Je vous invite à révisiter le guide [GitHub flow](https://docs.github.com/en/get-started/quickstart/github-flow) pour en apprendre davantage.
 
-5.  Enfin, pour mettre à jour votre site web, la façon le plus simple est de *render* votre site votre site localement (sur votre ordinateur) en cliquant sur `Render Website`. Il vous faudra *commit* vos changements, surtout le dossier `_freeze/` et de *push* le tout sur GitHub.
+5.  Enfin, pour mettre à jour notre site web, la façon le plus simple est de *render* notre site localement .Nous avons *commit* nos changements, surtout le dossier `_freeze/` et de *push* le tout sur GitHub.
 
 ## Structure du répertoire
 
@@ -55,9 +51,7 @@ Ce répertoire se veut exemple typique d'un rapport fonctionnel à remettre pour
 33 directories, 46 files
 ```
 
-La quasi-totalité les fichiers seront amenés à être modifiés; ils ne sont que des exemples très, très brefs. Ceux-ci constituent la base de votre rapport. Vous pouvez les nommer et les utiliser comme vous les voulez. Ainsi, vous pourrez diviser en différentes parties le processus d'analyses de façons stratégiques au lieu d'avoir un seul document avec des milliers de lignes. Le nombre est également arbitraire, à vous de décider la quantité qui vous convient.
-
-Pour plus de détails sur la structure et les modifications possibles en fonction des fichiers, veuillez consulter le site web de [quarto](https://quarto.org). Tout y est pour modifier le look, ajouter des fonctionnalités, etc.
+La quasi-totalité des fichiers seront amenés à être modifiés; ils ne sont que des exemples très, très brefs. Ceux-ci constituent la base de notre rapport.
 
 ## Principaux packages R utilisés dans ce site qui sert d'exemple:
 
